@@ -110,7 +110,6 @@ const PaymentInformation = ({ point, coupons, totalPrice }: any) => {
                 <SelectItem
                   key={coupon.code}
                   value={coupon}
-                  data-discountvalue={coupon.discountValue}
                   title={coupon.discountType}
                 >
                   {coupon.name}

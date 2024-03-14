@@ -4,10 +4,14 @@
 #### 1. next 14.1.3
 #### 2. typescript
 #### 3. tailwind css
-#### 4. shadcn/ui
+#### 4. shadcn/ui >> ui 생성
 #### 5. eslint
-#### 6. zod
-#### 7. react-hook-form / @hookform/resolver
+#### 6. zod >> 유효성 검사
+#### 7. react-hook-form / @hookform/resolver >> 유효성 검사
+#### 8. react-use >> useAsync를 사용. 간단하게 async를 사용가능.
+#### 9. date-fns >> 날짜, 시간을 다루는데 도움을 줌.
+#### 10. Nano-id >> 21바이트 uid 생성
+#### 11. axios
    
 
 ## 필요한 기능
@@ -37,9 +41,11 @@
   
   ~~저장은 아니지만, react-hook-form을 사용하여 유효성 검사 및 전송 구현.~~
 
-#### 5 : 결제 방법 선택 하나만 가능하도록 변경
+#### 5 : ~~결제 방법 선택 하나만 가능하도록 변경~~
 
-  현재는 아무것도 선택되지 않음. 그냥 있을 뿐. pg사 연결 하면서 변경해보자. 
+  ~~현재는 아무것도 선택되지 않음. 그냥 있을 뿐. pg사 연결 하면서 변경해보자.~~
+  
+  toss와 연동하며 내가 만든 페이지는 삭제했다.
 
 
 ## 해볼까?

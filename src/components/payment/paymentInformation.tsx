@@ -1,17 +1,11 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { Button } from '../ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '../ui/card';
-import { Checkbox } from '../ui/checkbox';
+
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import {
   Select,
   SelectContent,
@@ -20,17 +14,24 @@ import {
   SelectValue,
 } from '../ui/select';
 
-const PaymentInformation = ({ point, coupons, totalPrice }: any) => {
+const PaymentInformation = ({
+  point,
+  coupons,
+  totalPrice,
+  finalPrice,
+  setFinalPrice,
+}: any) => {
   const [usedPoint, setUsedPoint] = useState(0);
   const [selectedCoupon, setSelectedCoupon] = useState<any>(null);
-  const [finalPrice, setFinalPrice] = useState(totalPrice);
 
   // 계산을 위한 가격.
   const calculPrice = totalPrice;
 
   // 쿠폰 할인율 계산
-  const calculateCouponDiscount = (coupon: any) => {
-    if (!coupon) return 0;
+  const calculateCouponDiscount = (couponCode: number) => {
+    if (!couponCode) return 0;
+
+    const coupon = coupons[couponCode - 1];
 
     if (coupon.discountType === 'percent') {
       const discountPercentage = parseFloat(coupon.discountValue) || 0;
@@ -43,7 +44,6 @@ const PaymentInformation = ({ point, coupons, totalPrice }: any) => {
   useEffect(() => {
     // 선택된 쿠폰이 없으면
     if (!selectedCoupon) return;
-
     const couponDiscount = calculateCouponDiscount(selectedCoupon);
 
     // 쿠폰 할인
@@ -60,7 +60,7 @@ const PaymentInformation = ({ point, coupons, totalPrice }: any) => {
     setUsedPoint(Math.min(usedPoint, maxUsablePoint));
     setFinalPrice(finalPrice);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [usedPoint, selectedCoupon, totalPrice]);
+  }, [usedPoint, selectedCoupon, totalPrice, point]);
 
   // 포인트 전액 사용
   const handleUseAllPoints = useCallback(() => {
@@ -100,18 +100,18 @@ const PaymentInformation = ({ point, coupons, totalPrice }: any) => {
       </CardHeader>
       <CardContent>
         <Label>쿠폰</Label>
-        <Select onValueChange={(value) => setSelectedCoupon(value)}>
+        <Select
+          onValueChange={(value) => {
+            setSelectedCoupon(value);
+          }}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="쿠폰을 선택하세요." />
           </SelectTrigger>
           <SelectContent>
             {coupons.map((coupon: any) =>
               coupon.status === 'notUsed' ? (
-                <SelectItem
-                  key={coupon.code}
-                  value={coupon}
-                  title={coupon.discountType}
-                >
+                <SelectItem key={coupon.code} value={coupon.code.toString()}>
                   {coupon.name}
                 </SelectItem>
               ) : null
@@ -127,7 +127,9 @@ const PaymentInformation = ({ point, coupons, totalPrice }: any) => {
               value={usedPoint}
               onChange={(e) => handleChangePoint(e)}
             />
-            <Button onClick={handleUseAllPoints}>전액 사용</Button>
+            <Button type="button" onClick={handleUseAllPoints}>
+              전액 사용
+            </Button>
           </div>
           <Label>
             보유 포인트 <b>{point}</b>
@@ -141,44 +143,6 @@ const PaymentInformation = ({ point, coupons, totalPrice }: any) => {
         <Label>포인트 사용 : - {usedPoint}원</Label>
         <Label>최종 결제 금액 : {finalPrice}원</Label>
       </CardHeader>
-      <CardHeader>
-        <CardTitle>결제 방법</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <Button className="aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 peer sr-only" />
-            <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/card.svg" alt="카드" width={20} height={14} />
-              카드
-            </Label>
-          </div>
-          <div>
-            <Button className="aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 peer sr-only" />
-            <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/card.svg" alt="카드" width={20} height={14} />
-              가상계좌
-            </Label>
-          </div>
-          <div>
-            <Button className="aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 peer sr-only" />
-            <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/card.svg" alt="카드" width={20} height={14} />
-              무통장
-            </Label>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="flex-col">
-        <div>
-          <Checkbox id="cashreceipts" />
-          <Label htmlFor="cashreceipts">현금영수증 신청</Label>
-        </div>
-        <Button className="w-[100%]">결제</Button>
-      </CardFooter>
     </Card>
   );
 };

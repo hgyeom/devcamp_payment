@@ -16,16 +16,6 @@ export default function OrderInfomation({ form }: any) {
         <CardTitle>주문자</CardTitle>
       </CardHeader>
       <CardContent className="gap-3 flex flex-col">
-        {/* <div className="flex gap-3 items-center">
-          <Label className="w-[80px]">이름</Label>
-          <Input name="name" className="w-[60%]" />
-          <p className="text-red-500">* 필수</p>
-        </div>
-        <div className="flex gap-3 items-center">
-          <Label className="w-[80px]">전화번호</Label>
-          <Input name="phone" className="w-[60%]" />
-          <p className="text-red-500">* 필수</p>
-        </div> */}
         <FormField
           control={form.control}
           name="name"

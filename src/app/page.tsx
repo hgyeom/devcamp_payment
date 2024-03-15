@@ -5,6 +5,11 @@ import { nanoid } from 'nanoid';
 import { useAsync } from 'react-use';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  ANONYMOUS,
+  PaymentWidgetInstance,
+  loadPaymentWidget,
+} from '@tosspayments/payment-widget-sdk';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -12,15 +17,11 @@ import { schema } from '@/validators/payment';
 
 import OrderItems from '@/components/order/orderItems';
 import OrderInfomation from '@/components/order/orderInformation';
+import PaymentInformation from '@/components/payment/paymentInformation';
 
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import PaymentInformation from '@/components/payment/paymentInformation';
-import {
-  ANONYMOUS,
-  PaymentWidgetInstance,
-  loadPaymentWidget,
-} from '@tosspayments/payment-widget-sdk';
+
 import {
   Card,
   CardContent,
@@ -61,8 +62,8 @@ const coupons = [
   },
   {
     code: 3,
-    discountType: 'percent', // 퍼센트 할인
-    discountValue: '10', // 할인 비율
+    discountType: 'percent',
+    discountValue: '10',
     name: '10% 할인쿠폰',
     status: 'notUsed',
   },
@@ -128,7 +129,7 @@ export default function Home() {
 
     try {
       // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-      const result = await paymentWidget?.requestPayment({
+      await paymentWidget?.requestPayment({
         orderId: nanoid(), // 21바이트 uid 생성
         orderName: items[0].name + '외 ' + (items.length - 1) + '건',
         customerName: values.name,
@@ -136,10 +137,8 @@ export default function Home() {
         successUrl: `${window.location.origin}/success`,
         failUrl: `${window.location.origin}/fail`,
       });
-      console.log(result);
-    } catch (error) {
-      // 에러 처리하기
-      console.error(error);
+    } catch (err) {
+      console.error('err', err);
     }
   };
 

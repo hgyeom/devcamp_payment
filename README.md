@@ -23,7 +23,9 @@
 ## 간단한 기능
 
 react-hook-form + zod + shadcn/ui를 이용한 유효성 검사
+
 간단한 쿠폰 데이터를 이용한 쿠폰 할인
+
 포인트 할인
 
 toss payments 연동을 통한 결제 시스템

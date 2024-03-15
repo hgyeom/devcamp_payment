@@ -1,5 +1,10 @@
 # 데브캠프 - 결제 페이지
 
+## VERCEL
+
+[https://dev-payment-plum.vercel.app/]
+
+
 ## 개발 환경
 #### 1. next 14.1.3
 #### 2. typescript
@@ -12,7 +17,19 @@
 #### 9. date-fns >> 날짜, 시간을 다루는데 도움을 줌.
 #### 10. Nano-id >> 21바이트 uid 생성
 #### 11. axios
+#### 12. toss payments
    
+
+## 간단한 기능
+
+react-hook-form + zod + shadcn/ui를 이용한 유효성 검사
+
+간단한 쿠폰 데이터를 이용한 쿠폰 할인
+
+포인트 할인
+
+toss payments 연동을 통한 결제 시스템
+
 
 ## 필요한 기능
 #### 1. 상품 정보 확인하기 > 가격, 수량, 상품 이름 등
